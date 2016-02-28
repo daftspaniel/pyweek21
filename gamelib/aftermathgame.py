@@ -2,6 +2,9 @@ import pygame
 from pygame.locals import *
 from gamelib.util import *
 from gamelib.player import *
+from gamelib.gfxlib import *
+from gamelib.gfxgame import *
+from gamelib.villagemodel import *
 
 
 class AftermathGame(object):
@@ -11,6 +14,7 @@ class AftermathGame(object):
         self.screensize = screensize
         self.gfx = gfx
         self.player = Player(self.gfx.amy, self.surface, (10, 10))
+        self.villagemodel = VillageModel()
 
     def new_world(self):
         pass
@@ -64,19 +68,12 @@ class AftermathGame(object):
 
     def update_screen(self):
 
-        self.surface.fill(pygame.Color("black"))
-
+        clear(self.surface)
         self.draw_scene()
         self.screen.blit(self.surface, (0, 0))
         pygame.display.flip()
 
     def draw_scene(self):
 
-        self.draw_village()
-
-    def draw_village(self):
-        for x in range(0, 25):
-            for y in range(0, 24):
-                p = Rect(x * 32, y * 32, 32, 32)
-                self.surface.blit(self.gfx.grass, p)
+        draw_village(self.villagemodel, self.surface, self.gfx)
         self.player.draw()
