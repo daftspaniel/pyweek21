@@ -4,10 +4,10 @@ class VillageModel(object):
         self.reset()
 
     def reset(self):
-        self.w = 24
+        self.w = 25
         self.h = 12
         self.map = [[0 for i in range(self.h)] for j in range(self.w)]
-
+        self.structures = []
         for i in range(self.h):
             self.map[18][i] = 1
             self.map[19][i] = 1

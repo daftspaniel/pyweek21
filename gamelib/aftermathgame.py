@@ -13,8 +13,20 @@ class AftermathGame(object):
         self.surface = surface
         self.screensize = screensize
         self.gfx = gfx
+        self.build_cast()
+        self.construct_village()
+
+    def build_cast(self):
         self.player = Player(self.gfx.amy, self.surface, (10, 10))
+        self.bill = Player(self.gfx.bill, self.surface, (6, 8))
+        self.cam = Player(self.gfx.cam, self.surface, (7, 8))
+
+    def construct_village(self):
         self.villagemodel = VillageModel()
+        self.villagemodel.structures.append([8, 8, 100])
+        self.villagemodel.structures.append([12, 8, 100])
+        self.villagemodel.structures.append([10, 10, 100])
+        self.villagemodel.structures.append([10, 9, 101])
 
     def new_world(self):
         pass
@@ -76,4 +88,10 @@ class AftermathGame(object):
     def draw_scene(self):
 
         draw_village(self.villagemodel, self.surface, self.gfx)
+        self.bill.draw()
+        self.cam.draw()
         self.player.draw()
+
+        drawText(self.surface, 20, 550, "Town Spirit : " + "Rising!")
+        drawText(self.surface, 20, 580, "Time : " + "12:00")
+        drawText(self.surface, 420, 550, "Amy XY : " + str(self.player.rect))

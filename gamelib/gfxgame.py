@@ -2,6 +2,7 @@ import random
 import pygame
 from pygame.locals import *
 
+BLOCK_SIZE = 32
 
 def draw_village(model, surface, gfx):
     for x in range(0, model.w):
@@ -16,3 +17,7 @@ def draw_village(model, surface, gfx):
             #
             # if x == 20 and y==10:
             #     surface.blit(gfx.tent, p)
+
+    for struct in model.structures:
+        p = Rect(struct[0]*BLOCK_SIZE,struct[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+        surface.blit(gfx.getById(struct[2]), p)

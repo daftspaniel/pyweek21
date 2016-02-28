@@ -15,6 +15,7 @@ class GFXStore(object):
 
         # Buildings
         self.tent = load("img/tent.png", True)
+        self.campfire = load("img/campfire.png", True)
 
         # Scene
         self.grass = load("img/grass.png")
@@ -25,6 +26,8 @@ class GFXStore(object):
         self.images[0] = self.grass
         self.images[1] = self.water[0]
         self.images[2] = self.sand
+        self.images[100] = self.tent
+        self.images[101] = self.campfire
 
     def LoadGFX(self, path, transparentbg=False):
         if path.find(os.sep) == -1:

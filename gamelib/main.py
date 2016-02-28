@@ -34,7 +34,7 @@ GFX = GFXStore()
 # ------
 def main():
     GameState = 1
-    DrawText(surface, 10, 50, "Daftspaniel Presents...", 48, (255, 255, 255))
+    drawText(surface, 10, 50, "Daftspaniel Presents...", 48, (255, 255, 255))
     screen.blit(surface, (0, 0))
     pygame.display.flip()
 
@@ -48,9 +48,9 @@ def main():
 
                 elif event.type == ANIMEVENT:
 
-                    DrawText(surface, 210, 250, GameName, 78, (255, 0, 0))
-                    DrawText(surface, 211, 251, GameName, 78, (255, 156, 0))
-                    DrawText(surface, 212, 252, GameName, 78, (255, 255, 255))
+                    drawText(surface, 210, 250, GameName, 78, (255, 0, 0))
+                    drawText(surface, 211, 251, GameName, 78, (255, 156, 0))
+                    drawText(surface, 212, 252, GameName, 78, (255, 255, 255))
 
                 elif event.type == pygame.KEYDOWN:
                     keystate = pygame.key.get_pressed()

@@ -8,8 +8,8 @@ class Player(object):
         self.surface = surface
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.top = pos[1]
-        self.rect.left = pos[0]
+        self.rect.top = pos[1] * 32
+        self.rect.left = pos[0] * 32
         self.vmove = 0
         self.hmove = 0
 
