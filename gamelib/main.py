@@ -6,7 +6,8 @@ from pygame.locals import *
 from gamelib.util import *
 from gamelib.gfxlib import *
 from gamelib.gfxgame import *
-from gamelib.AftermathGame import *
+from gamelib.gfxstore import *
+from gamelib.aftermathgame import *
 
 # Globals.
 ScreenSize = [800, 600]
@@ -26,7 +27,7 @@ pygame.time.set_timer(LOGICEVENT, 30)
 surface = CreateBackground(screen)
 clear(surface)
 Game = None
-
+GFX = GFXStore()
 
 # ------
 # MAIN
@@ -66,18 +67,17 @@ def main():
             clear(surface)
             pygame.display.flip()
 
-            # //Game = CarpetGame( surface, screen, (800,600) )
+            AGame = AftermathGame( surface, screen, (800,600), GFX)
 
             while GameState == 3:
                 print("Game on")
-                # Game.MainLoop()
+                AGame.main_loop()
                 GameState = 4
 
         elif GameState == 4:  # Game over!
 
             print("Game over")
             clear(surface)
-            # DrawText(surface, 10, 50, "Game Over", 48, (255,0,0) )
 
             while GameState == 4:
                 for event in pygame.event.get():
@@ -87,6 +87,7 @@ def main():
                         keystate = pygame.key.get_pressed()
                         if keystate[K_SPACE]:
                             GameState = 1
+                            clear(surface)
                             pygame.time.wait(1000)
                     elif event.type == ANIMEVENT:
                         DrawText(surface, 210, 250, "Game Over", 78, (255, 0, 0))
@@ -108,6 +109,7 @@ def main():
                     keystate = pygame.key.get_pressed()
                     if keystate[K_SPACE]:
                         GameState = 1
+                        clear(surface)
 
             screen.blit(GameBG, (0, 0))
             pygame.display.flip()
