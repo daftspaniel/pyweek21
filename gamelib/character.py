@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 
-class Player(object):
+class Character(object):
     def __init__(self, image, surface, pos=(0, 0)):
 
         self.surface = surface

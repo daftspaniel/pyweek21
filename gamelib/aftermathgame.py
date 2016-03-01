@@ -1,10 +1,11 @@
 import pygame
 from pygame.locals import *
 from gamelib.util import *
-from gamelib.player import *
+from gamelib.character import *
 from gamelib.gfxlib import *
 from gamelib.gfxgame import *
 from gamelib.villagemodel import *
+from gamelib.aftermathworld import *
 
 
 class AftermathGame(object):
@@ -13,13 +14,19 @@ class AftermathGame(object):
         self.surface = surface
         self.screensize = screensize
         self.gfx = gfx
+        #
+        self.create_world()
         self.build_cast()
         self.construct_village()
 
     def build_cast(self):
-        self.player = Player(self.gfx.amy, self.surface, (10, 10))
-        self.bill = Player(self.gfx.bill, self.surface, (6, 8))
-        self.cam = Player(self.gfx.cam, self.surface, (7, 8))
+        chars = self.world.get_characters()
+        self.player = self.create_character(chars[0], self.gfx.amy)
+        self.bill = self.create_character(chars[1], self.gfx.bill)
+        self.cam = self.create_character(chars[2], self.gfx.cam)
+
+    def create_character(self, character, gfx):
+        return Character(gfx, self.surface, (character[2], character[3]))
 
     def construct_village(self):
         self.villagemodel = VillageModel()
@@ -28,8 +35,10 @@ class AftermathGame(object):
         self.villagemodel.structures.append([10, 10, 100])
         self.villagemodel.structures.append([10, 9, 101])
 
-    def new_world(self):
-        pass
+    def create_world(self):
+        self.world = AftermathWorld('world.db')
+        if self.world.isNewWorld:
+            self.world.create()
 
     def main_loop(self):
 
@@ -59,6 +68,8 @@ class AftermathGame(object):
                         vmove = 1
                     if keystate[K_m]==1:
                         pygame.image.save(self.surface, "screenshot.jpeg")
+                    if keystate[K_p]==1:
+                        self.world.save()
                     self.player.hmove = hmove
                     self.player.vmove = vmove
                 elif event.type == pygame.KEYUP:
@@ -95,3 +106,7 @@ class AftermathGame(object):
         drawText(self.surface, 20, 550, "Town Spirit : " + "Rising!")
         drawText(self.surface, 20, 580, "Time : " + "12:00")
         drawText(self.surface, 420, 550, "Amy XY : " + str(self.player.rect))
+        print(self.player.rect.top)
+        print(self.player.rect.left)
+        print(self.player.rect.top/32)
+        print(self.player.rect.left/32)
