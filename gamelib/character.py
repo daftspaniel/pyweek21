@@ -3,13 +3,14 @@ from pygame.locals import *
 
 
 class Character(object):
-    def __init__(self, image, surface, pos=(0, 0)):
+    def __init__(self, id, image, surface, pos=(0, 0)):
 
+        self.id =id
         self.surface = surface
         self.image = image
         self.rect = self.image.get_rect()
         self.rect.top = pos[1] * 32
-        self.rect.left = pos[0] * 32
+        self.rect.left = pos[0] * 24
         self.vmove = 0
         self.hmove = 0
 
@@ -33,3 +34,6 @@ class Character(object):
     def draw(self):
         self.update()
         self.surface.blit(self.image, self.rect)
+
+    def generate_save(self):
+        return [self.id, self.rect.left//24 , self.rect.top//32]

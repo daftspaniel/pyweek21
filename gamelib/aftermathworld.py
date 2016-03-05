@@ -8,11 +8,14 @@ class AftermathWorld(object):
         self.isNewWorld = not os.path.isfile(self.Filename)
 
     def create(self):
-        self.conn = sqlite3.connect(self.Filename)
+        self.connect()
         self.createTables()
         self.createCharacters()
         self.display()
         self.conn.close()
+
+    def connect(self):
+        self.conn = sqlite3.connect(self.Filename)
 
     def createCharacters(self):
         self.conn.execute("""
@@ -42,25 +45,31 @@ class AftermathWorld(object):
                         Y              INT     NOT NULL,
                         SPIRIT         INT     NOT NULL
                        );''')
+
     def display(self):
-        self.conn = sqlite3.connect(self.Filename)
+        self.connect()
 
         cursor = self.conn.execute("SELECT * FROM CHARACTER")
         for row in cursor:
-           print(row)
+            print(row)
         self.conn.close()
+
     def get_characters(self):
-        self.conn = sqlite3.connect(self.Filename)
+        self.connect()
         rs = []
         cursor = self.conn.execute("SELECT * FROM CHARACTER")
         for row in cursor:
-           rs.append(row)
+            rs.append(row)
         self.conn.close()
         return rs
 
-    def save(self):
-        self.conn = sqlite3.connect(self.Filename)
-        self.conn.execute("UPDATE CHARACTER SET X=5, Y=5 where ID=1")
+    def save(self, game):
+        self.connect()
+        for character in game["characters"]:
+            self.conn.execute("UPDATE CHARACTER SET X="
+                              + str(character[1]) +
+                              ", Y=" + str(character[2]) +
+                              " where ID=" + str(character[0]))
         self.conn.commit()
         self.conn.close()
 
@@ -73,4 +82,3 @@ if __name__ == "__main__":
         amw.create()
     else:
         print("Found Existing World")
-

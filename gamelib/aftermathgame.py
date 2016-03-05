@@ -26,7 +26,7 @@ class AftermathGame(object):
         self.cam = self.create_character(chars[2], self.gfx.cam)
 
     def create_character(self, character, gfx):
-        return Character(gfx, self.surface, (character[2], character[3]))
+        return Character(character[0], gfx, self.surface, (character[2], character[3]))
 
     def construct_village(self):
         self.villagemodel = VillageModel()
@@ -57,19 +57,19 @@ class AftermathGame(object):
 
                     keystate = pygame.key.get_pressed()
 
-                    if keystate[K_a]==1:
+                    if keystate[K_a] == 1:
                         hmove = -1
-                    elif keystate[K_d]==1:
+                    elif keystate[K_d] == 1:
                         hmove = 1
 
-                    if keystate[K_w]==1:
+                    if keystate[K_w] == 1:
                         vmove = -1
-                    elif keystate[K_s]==1:
+                    elif keystate[K_s] == 1:
                         vmove = 1
-                    if keystate[K_m]==1:
+                    if keystate[K_m] == 1:
                         pygame.image.save(self.surface, "screenshot.jpeg")
-                    if keystate[K_p]==1:
-                        self.world.save()
+                    if keystate[K_p] == 1:
+                        self.world.save(self.build_save_dict())
                     self.player.hmove = hmove
                     self.player.vmove = vmove
                 elif event.type == pygame.KEYUP:
@@ -106,7 +106,15 @@ class AftermathGame(object):
         drawText(self.surface, 20, 550, "Town Spirit : " + "Rising!")
         drawText(self.surface, 20, 580, "Time : " + "12:00")
         drawText(self.surface, 420, 550, "Amy XY : " + str(self.player.rect))
-        print(self.player.rect.top)
-        print(self.player.rect.left)
-        print(self.player.rect.top/32)
-        print(self.player.rect.left/32)
+        drawText(self.surface, 420, 575,
+                 "XY : " + str(self.player.rect.left // 24) + "," + str(self.player.rect.top // 32))
+        # print(self.player.rect.top)
+        # print(self.player.rect.left)
+        # print(self.player.rect.top / 32)
+        # print(self.player.rect.left / 32)
+
+    def build_save_dict(self):
+        savegame = {'characters': []}
+        savegame['characters'].append(self.player.generate_save())
+        print(savegame)
+        return savegame
